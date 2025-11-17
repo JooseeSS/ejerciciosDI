@@ -51,21 +51,11 @@ public class PantallaSecundaria extends javax.swing.JDialog {
 private void actualizarImagen(){
 String operacion = (String)jComboBoxTipoOperacion.getSelectedItem();
         switch (operacion) {
-            case "Suma":
-                jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/sumar.png")));
-                break;
-            case "Resta":
-                jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/restar.png")));
-                break;
-            case "Multiplicación":
-                jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/multiplicar.png")));
-                break;
-            case "División":
-                jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/dividir.png")));
-                break;
-            default:
-                jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/potencia.jpg")));
-                break;
+            case "Suma" -> jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/sumar.png")));
+            case "Resta" -> jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/restar.png")));
+            case "Multiplicación" -> jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/multiplicar.png")));
+            case "División" -> jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/dividir.png")));
+            default -> jLabelImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/potencia.jpg")));
         }
 }
     /**

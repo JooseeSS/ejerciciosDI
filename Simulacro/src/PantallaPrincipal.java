@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.util.ArrayList; // <--- AÑADIR ESTA
 import java.util.Comparator; // <--- ASEGURARSE DE TENER ESTA
 import java.util.List;
@@ -35,7 +36,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public PantallaPrincipal() {
         initComponents();
         inicializarTabla();
-        java.awt.Image icono = new ImageIcon(getClass().getResource("/imgs/calculadora.png")).getImage();
+        Image icono = new ImageIcon(getClass().getResource("/imgs/calculadora.png")).getImage();
         this.setIconImage(icono);
         DefaultComboBoxModel dcm =new DefaultComboBoxModel();
         for(LookAndFeelInfo lfi : UIManager.getInstalledLookAndFeels())
