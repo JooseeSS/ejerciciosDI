@@ -4,12 +4,21 @@
  */
 package EjercicioFinal;
 
+import java.util.Date;
+import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
+import org.netbeans.validation.api.ui.ValidationGroup;
+
 /**
  *
  * @author Usuario
  */
 public class AltaHeroes extends javax.swing.JDialog {
-    
+    private  GestorHeroes gestorHeroes; 
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AltaHeroes.class.getName());
 
     /**
@@ -17,9 +26,42 @@ public class AltaHeroes extends javax.swing.JDialog {
      */
     public AltaHeroes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        gestorHeroes = (GestorHeroes)parent;
         initComponents();
-    }
+        actualizarImagen();
+        jDateChooserFechaAlta.setMaxSelectableDate(new Date());
+        jButtonHeroe.setEnabled(false);
+        JTextField dateField = (JTextField) jDateChooserFechaAlta.getDateEditor().getUiComponent();
+        ValidationGroup group = validationPanel1.getValidationGroup();
+        group.add(jTextFieldNombre, StringValidators.REQUIRE_NON_EMPTY_STRING);
+       group.add(dateField, StringValidators.REQUIRE_NON_EMPTY_STRING);
+        
+        validationPanel1.addChangeListener(new ChangeListener() {
+    @Override
+    public void stateChanged(ChangeEvent e){ 
+            if (validationPanel1.getProblem() == null)
+             jButtonHeroe.setEnabled(true);
+             else 
+                 jButtonHeroe.setEnabled(false);
 
+
+           }
+});
+
+    }
+private void actualizarImagen(){
+String imagen = (String) jComboBoxPoder.getSelectedItem();
+if(imagen.equals("Volar")){
+jLabelPoder.setIcon(new ImageIcon(getClass().getResource("/EjercicioFinal/imgs/volar.png"))); 
+}else if(imagen.equals("Fuerza")){
+jLabelPoder.setIcon(new ImageIcon(getClass().getResource("/EjercicioFinal/imgs/fuerza.jpg"))); 
+}else if(imagen.equals("Velocidad")){
+jLabelPoder.setIcon(new ImageIcon(getClass().getResource("/EjercicioFinal/imgs/velocidad.png"))); 
+}else{
+jLabelPoder.setIcon(new ImageIcon(getClass().getResource("/EjercicioFinal/imgs/invisible.jpeg"))); 
+}
+
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,21 +71,143 @@ public class AltaHeroes extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        validationPanel1 = new org.netbeans.validation.api.ui.swing.ValidationPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jTextFieldNombre = new javax.swing.JTextField();
+        jComboBoxPoder = new javax.swing.JComboBox<>();
+        jSpinnerNivel = new javax.swing.JSpinner();
+        jDateChooserFechaAlta = new com.toedter.calendar.JDateChooser();
+        jLabelPoder = new javax.swing.JLabel();
+        jButtonHeroe = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jLabel1.setText(org.openide.util.NbBundle.getMessage(AltaHeroes.class, "AltaHeroes.jLabel1.text")); // NOI18N
+
+        jLabel2.setText(org.openide.util.NbBundle.getMessage(AltaHeroes.class, "AltaHeroes.jLabel2.text")); // NOI18N
+
+        jLabel3.setText(org.openide.util.NbBundle.getMessage(AltaHeroes.class, "AltaHeroes.jLabel3.text")); // NOI18N
+
+        jLabel4.setText(org.openide.util.NbBundle.getMessage(AltaHeroes.class, "AltaHeroes.jLabel4.text")); // NOI18N
+
+        jTextFieldNombre.setText(org.openide.util.NbBundle.getMessage(AltaHeroes.class, "AltaHeroes.Nombre.text")); // NOI18N
+        jTextFieldNombre.setName("Nombre"); // NOI18N
+
+        jComboBoxPoder.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Volar", "Invisible", "Fuerza", "Velocidad" }));
+        jComboBoxPoder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxPoderActionPerformed(evt);
+            }
+        });
+
+        jSpinnerNivel.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+
+        jDateChooserFechaAlta.setName("Fecha de alta"); // NOI18N
+
+        jLabelPoder.setText(org.openide.util.NbBundle.getMessage(AltaHeroes.class, "AltaHeroes.jLabelPoder.text")); // NOI18N
+        jLabelPoder.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jLabelPoderAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+
+        jButtonHeroe.setText(org.openide.util.NbBundle.getMessage(AltaHeroes.class, "AltaHeroes.jButtonHeroe.text")); // NOI18N
+        jButtonHeroe.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonHeroeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(108, 108, 108)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBoxPoder, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateChooserFechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonHeroe)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jSpinnerNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(186, 186, 186)
+                .addComponent(jLabelPoder, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                .addGap(163, 163, 163))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(validationPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(validationPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxPoder, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jSpinnerNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(37, 37, 37)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDateChooserFechaAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelPoder, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)))
+                .addGap(14, 14, 14)
+                .addComponent(jButtonHeroe)
+                .addGap(184, 184, 184))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonHeroeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonHeroeActionPerformed
+       String nombre = jTextFieldNombre.getText();
+       String poder = (String)jComboBoxPoder.getSelectedItem();
+       int nivel = (int) jSpinnerNivel.getValue();
+       Date fechaAlta = jDateChooserFechaAlta.getDate();
+       Heroe heroe = new Heroe(nombre, poder, nivel, fechaAlta);
+       gestorHeroes.aniadirHeroe(heroe);
+       dispose();
+    }//GEN-LAST:event_jButtonHeroeActionPerformed
+
+    private void jLabelPoderAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabelPoderAncestorAdded
+     
+    }//GEN-LAST:event_jLabelPoderAncestorAdded
+
+    private void jComboBoxPoderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxPoderActionPerformed
+       actualizarImagen();
+    }//GEN-LAST:event_jComboBoxPoderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -83,5 +247,16 @@ public class AltaHeroes extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonHeroe;
+    private javax.swing.JComboBox<String> jComboBoxPoder;
+    private com.toedter.calendar.JDateChooser jDateChooserFechaAlta;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabelPoder;
+    private javax.swing.JSpinner jSpinnerNivel;
+    private javax.swing.JTextField jTextFieldNombre;
+    private org.netbeans.validation.api.ui.swing.ValidationPanel validationPanel1;
     // End of variables declaration//GEN-END:variables
 }

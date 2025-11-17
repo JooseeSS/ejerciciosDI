@@ -4,12 +4,23 @@
  */
 package EjercicioFinal;
 
+import java.awt.Image;
+import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author Usuario
  */
 public class GestorHeroes extends javax.swing.JFrame {
-    
+    private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GestorHeroes.class.getName());
 
     /**
@@ -17,8 +28,45 @@ public class GestorHeroes extends javax.swing.JFrame {
      */
     public GestorHeroes() {
         initComponents();
+        inicializartabla();
+        Image icono = new ImageIcon(getClass().getResource("/EjercicioFinal/imgs/calculadora.png")).getImage(); 
+        this.setIconImage(icono);
+        jLabelHoraActual.setText(sdf.format(new java.util.Date()));
+        Long timestamp = System.currentTimeMillis() / 1000;
+        jLabelUnix.setText(String.valueOf(timestamp));
+        
+    }   
+    
+    
+    private void inicializartabla(){
+        
+        DefaultTableModel dtm = new DefaultTableModel();
+        dtm.setColumnIdentifiers(new String[]{"Nombre", "Poder", "Nivel", "Fecha de alta"});
+        jTableHeroes.setModel(dtm);
+       
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(dtm);
+        jTableHeroes.setRowSorter(sorter);
+    List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>();
+    sortKeys.add(new RowSorter.SortKey(2, SortOrder.ASCENDING));
+    
+    // Añadimos la clave de ordenación secundaria: Fecha de alta, ascendente
+    sortKeys.add(new RowSorter.SortKey(3, SortOrder.ASCENDING));
+    
+    // 3. Aplicar las claves de ordenación al sorter
+    sorter.setSortKeys(sortKeys);
     }
+    
+    public void aniadirHeroe(Heroe heroe){
+    DefaultTableModel dtm =  (DefaultTableModel)jTableHeroes.getModel();
+    dtm.addRow(heroe.toArrayString());
+    String nombreHeroe = heroe.toArrayString()[0]; 
 
+    JOptionPane.showMessageDialog(this, 
+            "¡Héroe '" + nombreHeroe + "' añadido con éxito!", 
+            "Éxito", 
+            JOptionPane.INFORMATION_MESSAGE);
+
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,7 +82,7 @@ public class GestorHeroes extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabelHoraActual = new javax.swing.JLabel();
         jScrollPaneHeroes = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableHeroes = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -64,15 +112,15 @@ public class GestorHeroes extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap(60, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelHoraActual, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5)
-                    .addComponent(jLabelUnix, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelUnix, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addGap(55, 55, 55))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableHeroes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -83,11 +131,21 @@ public class GestorHeroes extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPaneHeroes.setViewportView(jTable1);
+        jScrollPaneHeroes.setViewportView(jTableHeroes);
 
         jButton1.setText("Añadir Heroe");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Eliminar Heroe");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -96,9 +154,9 @@ public class GestorHeroes extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(55, 55, 55)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(102, 102, 102))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(82, 82, 82))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,16 +173,17 @@ public class GestorHeroes extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(jScrollPaneHeroes)
+                .addGap(68, 68, 68))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPaneHeroes, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(1093, Short.MAX_VALUE))
+                        .addGap(35, 35, 35)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,14 +191,72 @@ public class GestorHeroes extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPaneHeroes, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addComponent(jScrollPaneHeroes, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                .addGap(89, 89, 89)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(597, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        AltaHeroes irAltaHerores = new AltaHeroes(this, true);
+        irAltaHerores.setVisible(true);
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // 1. Comprobar si hay una fila seleccionada
+    int filaSeleccionadaVista = jTableHeroes.getSelectedRow();
+    
+    if (filaSeleccionadaVista == -1) {
+        // No hay nada seleccionado
+        JOptionPane.showMessageDialog(this, 
+                "Por favor, selecciona un héroe de la tabla para eliminarlo.", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE);
+        return; // Salimos del método
+    }
+
+    // 2. Pedir confirmación
+    int confirmacion = JOptionPane.showConfirmDialog(this, 
+            "¿Estás seguro de que deseas eliminar al héroe seleccionado?", 
+            "Confirmar eliminación", 
+            JOptionPane.YES_NO_OPTION, 
+            JOptionPane.WARNING_MESSAGE);
+    
+    // 3. Actuar según la respuesta
+    if (confirmacion == JOptionPane.YES_OPTION) {
+        
+        // --- CÓDIGO AÑADIDO (Requisito 5: Pedir datos extra) ---
+        String motivo = JOptionPane.showInputDialog(this, 
+                "Por favor, introduce el motivo de la baja:", 
+                "Motivo de baja", 
+                JOptionPane.QUESTION_MESSAGE);
+        
+        if (motivo == null || motivo.trim().isEmpty()) {
+            motivo = "Sin especificar";
+        }
+        // --- FIN CÓDIGO AÑADIDO ---
+
+        // 4. Obtener el modelo y el índice real (importante por si está ordenado)
+        DefaultTableModel dtm = (DefaultTableModel) jTableHeroes.getModel();
+        int filaSeleccionadaModelo = jTableHeroes.convertRowIndexToModel(filaSeleccionadaVista);
+        
+        // 5. Eliminar la fila del modelo
+        dtm.removeRow(filaSeleccionadaModelo);
+        
+        
+      
+
+        // 7. Mostrar mensaje de éxito
+        JOptionPane.showMessageDialog(this, 
+                "Héroe eliminado correctamente.", 
+                "Eliminado", 
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -176,6 +293,6 @@ public class GestorHeroes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPaneHeroes;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableHeroes;
     // End of variables declaration//GEN-END:variables
 }
